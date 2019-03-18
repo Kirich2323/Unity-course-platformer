@@ -7,12 +7,15 @@ using TMPro;
 public class GameManager : MonoBehaviour {
     public int currentGold = 0;
 
-    public Text goldDisplay;
+    public TextMeshProUGUI goldDisplay;
     public GameObject gameUI;
 
 
     public GameObject deathMenu;
     public TextMeshProUGUI deathScore;
+
+    public TextMeshProUGUI finishScoreText;
+    public GameObject finishPanel;
 
     void Start() {
         gameUI.SetActive(true);
@@ -27,15 +30,27 @@ public class GameManager : MonoBehaviour {
         goldDisplay.text = "Gold: " + currentGold.ToString();
     }
 
-    public void GameOver() {
+    private void pause() {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        deathScore.text = "Score: " + currentGold.ToString();
-
         Time.timeScale = 0;
+    }
 
+    public void GameOver() {
+
+        pause();
         deathMenu.SetActive(true);
+        gameUI.SetActive(false);
+
+        deathScore.text = "Score: " + currentGold.ToString();
+    }
+
+    public void Finish() {
+        pause();
+        finishScoreText.text = "Final score: " + currentGold.ToString() + "!";
+
+        finishPanel.SetActive(true);
         gameUI.SetActive(false);
     }
 }
